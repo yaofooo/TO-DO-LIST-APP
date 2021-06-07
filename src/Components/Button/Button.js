@@ -1,7 +1,7 @@
 import  { Component } from 'react'
 import "./Styles.css";
 
-class Button extends Component {
+ class Button extends Component {
     constructor(props){
     super(props) 
     }

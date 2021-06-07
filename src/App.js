@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import HomeScreen from './Screens/HomeScreen/HomeScreen';
  
 
-class App extends Component {
+ class App extends Component {
   render() {
     return (
      <main>

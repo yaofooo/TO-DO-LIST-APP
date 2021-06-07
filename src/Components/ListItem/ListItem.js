@@ -16,7 +16,7 @@ import "./Styles.css";
                 <Button
             text="Delete"
             isPurble={true}
-            handleClick={()=>{}}
+            handleClick={this.props.handleDelete}
             />
 
             </div>
