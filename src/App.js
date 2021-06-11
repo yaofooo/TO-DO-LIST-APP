@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import HomeScreen from './Screens/HomeScreen/HomeScreen';
  
 
- class App extends Component {
-  render() {
+ function App() {
+
     return (
      <main>
        <div className="container">
@@ -15,7 +15,7 @@ import HomeScreen from './Screens/HomeScreen/HomeScreen';
      </main>
     )
   }
-}
+
 
 
 export default App;

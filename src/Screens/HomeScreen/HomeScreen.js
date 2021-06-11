@@ -1,33 +1,33 @@
-import {Component} from 'react';
 import Button from '../../Components/Button/Button';
 import ListItem from '../../Components/ListItem/ListItem';
-import data from'../../data';
 import "./Styles.css";
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
+import {useState, useEffect} from 'react';
 
 
-
- class HomeScreen extends Component {
-     state={
-         value:'',
-         list:[],
-     }
-    async componentDidMount(){
+ function HomeScreen (){
+     const [error, setError] = useState("");
+     const[value, setValue] = useState("");
+     const[list, setList] = useState([]);
+     
+         
+    const fetchData = async()=>{
          try{
         
-            const response = await axios.get("https://jsonplaceholder.typicode.com/posts")
-            console.log(response);
-            this.setState({
-                list:response.data,
-            });
+            const response = await axios.get(
+                "https://jsonplaceholder.typicode.com/todos")
+                setList(response.data.splice(0,20))
         } catch (e) {
                 console.log(e);
-            }
-        
-        
+            };
+            
+            
+            
      }
-    render() {
+     useEffect(() => {
+                fetchData(); }, []);
+   
         return (
             <div className="inner-container">
                 <h1 className="page-title">
@@ -39,60 +39,51 @@ import axios from 'axios';
                     className="add-task-input"
                     type="text"
                     placeholder="Enter a new task..."
-                    onChange={(event)=>{
-                        this.setState({
-                        value:event.target.value
-                        })
-                    }}
-                    
-                    value={this.state.value}
-
+                    onChange={(event)=>
+                        
+                        
+                        {setValue(event.target.value)}
+                        }
+                        value={value}
                     />
-                    {this.state.error? <span>{this.state.error}</span> :null}
+                    {error? <span>{error}</span> :null}
                     </div>
                     <Button 
                     text="Add"
                     handleClick={()=>{
-                        if(this.state.value){
+                        if(value){
                         const newArr= [
                             {
-                                title:this.state.value,
+                                title:value,
                                 id:uuidv4(),
                             },
-                            ...this.state.list,]
-                        this.setState({
-
+                        ...list,]
                         
-                            list:newArr,
-                            value: '',
-                            error: '',
-                            
+                        setValue('')
+                        setError('')
+                        setList(newArr)
 
-
-                        });
-                        }else{
-                            this.setState({
-                                error: "please submit atask",
-                         })}
-                        }}
-                    />
+                    } else {
+                        setError("please submit a task")
+                    }
+                }}
+            />
 
                     
                    
 
                 </section>
                 <section className="items-section">
-                {this.state.list.length ? (
-                    this.state.list.map((item) =>
+                {list?.length ? (
+                    list.map((item) =>
                 (
                 <ListItem 
                     task={item.title}
                     key={item.id}
                      handleDelete={()=>{
-                    const filterdItems= this.state.list.filter((filterItem) => filterItem.id != item.id);
-                    this.setState({
-                        list:filterdItems
-                    });
+                    const filterdItems= list.filter((filterItem) => filterItem.id != item.id);
+                    
+                    setList(filterdItems);
                 }}
 
                 />
@@ -102,5 +93,5 @@ import axios from 'axios';
             </div>
         )
     }
-}
+
 export default HomeScreen;
